@@ -36,7 +36,7 @@ public class guiWordsLearn extends JFrame implements ActionListener {
         word = new actionsWordsLearn();
         setResizable(true);
         setVisible(true);
-
+checkSum();
         makeGUI();
         pack();
 
@@ -219,6 +219,9 @@ public class guiWordsLearn extends JFrame implements ActionListener {
         word.readWordsFile();
         word.randomWord();
         showDrawnWords();
+        checkSum();
+        yourScoreTextField.setText(" To be translated: " + sum);
+
         scoreLabel.setIcon(new ImageIcon(" "));
         scoreLabel.setForeground(Color.BLACK);
         howManyWordsLeftTextField.setText(word.rememberWordRepetition.get(word.k) + " ");
@@ -228,6 +231,7 @@ public class guiWordsLearn extends JFrame implements ActionListener {
 
     public void checkSum() {
         sum = 0;
+     //   sum = 1;
         for (int i : word.rememberWordRepetition) {
 
             sum += i;
@@ -262,7 +266,9 @@ public class guiWordsLearn extends JFrame implements ActionListener {
         do {
             word.randomWord();
             //showPoints();
-            if (word.k != 0) break;
+            checkSum();
+            if (word.rememberWordRepetition.get(word.k)!= 0) break;
+            if(sum==0) break;
         } while (word.rememberWordRepetition.get(word.k) == 0);
 
     }
