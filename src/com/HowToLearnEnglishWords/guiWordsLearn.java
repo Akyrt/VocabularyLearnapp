@@ -114,14 +114,14 @@ checkSum();
             word.setWord(inputWordTextField.getText());
             word.compareWords(word.ourWord);
             // yourScoreTextField.setText(word.getPoints() + "/" + word.getAllTests() + ", to be translated: " + sum);
-            yourScoreTextField.setText(" To be translated: " + sum);
-
 
             checkSum();
+            yourScoreTextField.setText(" To be translated: " + sum);
 
             if ((sum > 0) && (word.rememberWordApperance() == 1)) {
 
                 word.points++;
+                checkSum();
                 // yourScoreTextField.setText(word.getPoints() + "/" + word.getAllTests() + ", to be translated: " + sum);
                 yourScoreTextField.setText(" To be translated: " + sum);
 
@@ -191,8 +191,11 @@ checkSum();
             }
             word.randomWord();
             showDrawnWords();
+            checkSum();
             howManyWordsLeftTextField.setText(word.rememberWordRepetition.get(word.k) + " ");
-            yourScoreTextField.setText(" To be translated: ");
+            //yourScoreTextField.setText(" To be translated: ");
+            yourScoreTextField.setText(" To be translated: " + sum);
+
 
         }
 
