@@ -6,6 +6,8 @@ import javax.swing.text.Caret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 
 /**
@@ -47,8 +49,9 @@ checkSum();
     }
 
     public void makeGUI() {
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        designGUI();
+       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        Sets app title
         this.setTitle("WordsLearn");
        // this.getContentPane().setBackground(Color.WHITE);
@@ -141,6 +144,30 @@ checkSum();
         howManyWordsLeftTextField.setFont(font);
         howManyWordsLeftTextField.setEditable(false);
         add(howManyWordsLeftTextField);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                int o = JOptionPane.showConfirmDialog(
+                        e.getWindow(),
+                        "Chcesz zakoczńczyć?",
+                        "Finish Application Dialog",
+                        JOptionPane.YES_NO_OPTION
+                );
+                if (o == JOptionPane.YES_OPTION) {
+
+
+                    dispose();
+
+                } else if (o == JOptionPane.NO_OPTION) {
+                    scoreLabel.setText("Score: " + word.getPoints() + "/" + word.getAllTests());
+                }
+                ;
+
+            }
+        });
+
 
     }
 
@@ -315,4 +342,91 @@ checkSum();
         } while (word.rememberWordRepetition.get(word.k) == 0);
 
     }
+
+    void designGUI() {
+
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem helpItem = new JMenuItem("Help");
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(e -> {
+
+            dispose();
+            System.exit(0);
+        });
+
+        JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.addActionListener(e -> {
+            //1. Create the frame.
+            JFrame frame = new JFrame("About");
+
+//2. Optional: What happens when the frame closes?
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+//3. Create components and put them in the frame.
+
+            JTextArea labell = new JTextArea();
+
+            labell.setText("\n Aplikacja do nauki słówek z języków obcych. \n\n Autor: Akyrt \n Data wersji:  11.06.2017 \n");
+           // labell.setFont(font);
+            labell.setEditable(false);
+
+            frame.getContentPane().add(labell, BorderLayout.CENTER);
+
+            frame.setResizable(false);
+//4. Size the frame.
+            frame.pack();
+
+//5. Show it.
+            frame.setVisible(true);
+        });
+
+
+
+        helpItem.addActionListener(e -> {
+            //1. Create the frame.
+            JFrame frame = new JFrame("Help");
+
+//2. Optional: What happens when the frame closes?
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+//3. Create components and put them in the frame.
+
+            JTextArea labell = new JTextArea();
+
+            labell.setText("\nWitam, zanim zaczniesz korzystać z mojego programu przeczytaj proszę ten wstęp. " +
+                    "\n\n 1.Program służy do nauki słówek z angielskiego, działa na zasadzie losowania słówek z 2 plików .txt, " +
+                    "\n   w których są umieszczone słówka. W jednym słowka po angielsku w drugim po polsku. " +
+                    "\n\n 2.Aby uruchomić program, przy pierwszym użyciu należy  klikając PPM-> otwórz za pomocą -> Java Platform. " +
+                    "\n\n 3.Dołączone 2 pliki tekstowe zawierają przykładowe słówka, jak należy wpisać je do pliku. " +
+                    "\n   Można do nich dopisać swoje i rozpocząć naukę." +
+                    "\n\n 4.Swoje słówka należy wpisywać w plikach kolejno jedno pod drugim oraz WAŻNE aby ich tłumaczenia w drugim" +
+                    "\n   pliku były w tej samej kolejności !" +
+                    "\n\n 5.Równie dobrze można ćwiczyć słówka z różnych innych języków po wcześniejszym rozpisaniu ich w plikach .txt." +
+                    "\n\n 6.PO KAŻDYM uruchomieniu aplikacji, należy wstępnie załadować obydwa pliki tekstowe a następnie kliknąć Start." +
+                    "\n\n 7.Tłumaczenie wpisujemy do okienka \"Translate please\" a następnie klikamy ENTER." +
+                    "\n\n 8.Miłej nauki ! :)");
+            // labell.setFont(font);
+            labell.setEditable(false);
+
+            frame.getContentPane().add(labell, BorderLayout.CENTER);
+
+            frame.setResizable(false);
+//4. Size the frame.
+            frame.pack();
+
+//5. Show it.
+            frame.setVisible(true);
+        });
+
+        fileMenu.add(helpItem);
+        fileMenu.add(aboutItem);
+        fileMenu.add(exitItem);
+        menuBar.add(fileMenu);
+
+        setLayout(new BorderLayout());
+    }
+
 }
